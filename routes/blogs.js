@@ -38,7 +38,7 @@ router.post("/blogs", middleware.isLoggedIn, function(req, res){
             createdBlog.author.id = req.user._id;
             createdBlog.author.username = req.user.username;
             createdBlog.save();
-            req.flash("success", "<div class='header'>Blog created</div><p>Your blogs has been added to the database</p>");
+            req.flash("success", "<div class='header'>Blog created</div><p>Your blog has been added to the database</p>");
             res.redirect("/blogs");
         }
     });
