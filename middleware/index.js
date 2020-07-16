@@ -28,8 +28,7 @@ middlewareObj.checkBlogOwnership = function(req, res, next){
     } else {
         req.flash("error", "<div class='header'>Login required</div><p>You must be logged in to do that</p>")
         res.redirect("/login");
-    }
-    
+    }  
 }
 
 module.exports = middlewareObj;
