@@ -1,0 +1,34 @@
+<%- include("../partials/header") %>
+
+    <div class="ui container text main">
+
+        <div class="ui top attached segment">
+            <div class="ui header huge"><%= blog.title %></div>
+            <div class="item">
+                <img src="<%= blog.image %>" alt="no image found" class="ui image centered rounded">
+                <div class="content margin-top">
+                    <span><em>Written by <%= blog.author.username %></em></span>
+                    <span class="float-right"><%= blog.created.toDateString() %></span>
+                </div>
+                <% if(currentUser && blog.author.id.equals(currentUser._id)){ %>
+                    <div class="margin-top">
+                        <a class="ui button orange inverted" href="/blogs/<%= blog._id %>/edit">Edit</a>
+                        <form class="delete-form" action="/blogs/<%= blog._id %>?_method=DELETE" method="POST">
+                            <button class="ui button red inverted">Delete</button>
+                        </form>
+                    </div>
+                <% } %>
+            </div>
+            <hr class="margin-top"> 
+            <div class="item margin-top">
+                <div class="description">
+                    <p><%- blog.body %></p>
+                </div>
+            </div>           
+        </div>
+        
+
+        
+    </div>
+
+<%- include("../partials/footer") %>

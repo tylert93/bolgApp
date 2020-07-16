@@ -1,0 +1,21 @@
+<%- include("partials/header") %>
+
+<div class="ui container main text segment">
+
+    <div class="ui header huge">Sign-Up</div>
+
+    <form class="ui form" action="/register" method="POST">
+        <div class="field">
+            <label for="blog[title]">Username</label>
+            <input type="text" name="username" placeholder="username">
+        </div>
+        <div class="field">
+            <label for="blog[image]">Password</label>
+            <input type="password" name="password" placeholder="password">
+        </div>
+        <input class="ui button purple inverted" type="submit" value="Register">
+    </form>
+
+</div>    
+
+<%- include("partials/footer") %>
