@@ -15,7 +15,7 @@
                             <span><%= item.created.toDateString() %></span>
                         </div>
                         <div class="description">
-                            <p><%- item.body.substring(0, 100) %> </p>
+                            <p><%- item.body.substring(0, 140) %> ...</p>
                         </div>
                         <div class="extra">
                             <a class="ui button purple inverted" href="/blogs/<%= item._id %>">
