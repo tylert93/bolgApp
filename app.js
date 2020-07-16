@@ -20,7 +20,7 @@ app.use(methodOverride("_method"));
 app.use(expressSanitizer()),
 app.use(flash());
 
-mongoose.connect("mongodb://localhost/blog_app_2", { 
+mongoose.connect(process.env.DATABASE_URL, { 
     useNewUrlParser: true, 
     useUnifiedTopology: true, 
     useFindAndModify:false 
