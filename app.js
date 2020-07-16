@@ -49,6 +49,6 @@ app.use(function(req, res, next){
 app.use(blogsRoutes);
 app.use(indexRoutes);
 
-app.listen(3000, function(){
+app.listen(process.env.PORT, process.env.IP, function(){
     console.log("server is running ...");
 });
