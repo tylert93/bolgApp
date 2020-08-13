@@ -1,19 +1,19 @@
 require('dotenv').config();
 
-var express = require("express"),
-    app = express(),
-    mongoose = require("mongoose"),
-    bodyParser = require("body-parser"),
-    methodOverride = require("method-override"),
-    expressSanitizer = require("express-sanitizer"),
-    passport = require("passport"),
-    localStrategy = require("passport-local"),
-    expressSession = require("express-session"),
-    blogsRoutes = require("./routes/blogs"),
-    indexRoutes = require("./routes/index"),
-    flash = require("connect-flash"),
-    Blog = require("./models/blog"),
-    User = require("./models/user");
+const express = require("express"),
+      app = express(),
+      mongoose = require("mongoose"),
+      bodyParser = require("body-parser"),
+      methodOverride = require("method-override"),
+      expressSanitizer = require("express-sanitizer"),
+      passport = require("passport"),
+      localStrategy = require("passport-local"),
+      expressSession = require("express-session"),
+      blogsRoutes = require("./routes/blogs"),
+      indexRoutes = require("./routes/index"),
+      flash = require("connect-flash"),
+      Blog = require("./models/blog"),
+      User = require("./models/user");
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended:true}));
@@ -44,7 +44,6 @@ app.use(function(req, res, next){
     res.locals.currentUser = req.user;
     res.locals.error = req.flash("error");
     res.locals.success = req.flash("success");
-    console.log(req.user);
     next();
 });
 
