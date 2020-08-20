@@ -1,7 +1,7 @@
 let middlewareObj = {};
 const Blog = require("../models/blog");
 
-middlewareObj.isLoggedIn = function(req, res, next){
+middlewareObj.isLoggedIn = (req, res, next) => {
     if(req.isAuthenticated()){
         next();
     } else {
@@ -10,9 +10,9 @@ middlewareObj.isLoggedIn = function(req, res, next){
     }
 }
 
-middlewareObj.checkBlogOwnership = function(req, res, next){
+middlewareObj.checkBlogOwnership = (req, res, next) => {
     if(req.isAuthenticated()){
-        Blog.findById(req.params.id, function(err, foundBlog){
+        Blog.findById(req.params.id, (err, foundBlog) => {
             if(err || !foundBlog){
                 req.flash("error", `<div class='header'>Blog not found</div><p>Please use a blog with a valid ID</p>`);
                 res.redirect("error");
