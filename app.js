@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const express = require("express"),
       app = express(),
       mongoose = require("mongoose"),
@@ -9,12 +7,14 @@ const express = require("express"),
       passport = require("passport"),
       localStrategy = require("passport-local"),
       expressSession = require("express-session"),
+      dotenv = require('dotenv'),
+      flash = require("connect-flash"),
       blogsRoutes = require("./routes/blogs"),
       indexRoutes = require("./routes/index"),
-      flash = require("connect-flash"),
       Blog = require("./models/blog"),
       User = require("./models/user");
 
+dotenv.config();      
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static("public"));
@@ -40,7 +40,7 @@ passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use(function(req, res, next){
+app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     res.locals.error = req.flash("error");
     res.locals.success = req.flash("success");
@@ -50,6 +50,6 @@ app.use(function(req, res, next){
 app.use(blogsRoutes);
 app.use(indexRoutes);
 
-app.listen(process.env.PORT, process.env.IP, function(){
+app.listen(process.env.PORT, process.env.IP, () => {
     console.log("server is running ...");
 });
