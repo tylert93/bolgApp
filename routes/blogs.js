@@ -1,11 +1,19 @@
-const express = require("express"),
-      router = express.Router(),
-      middleware = require("../middleware"),
-      Blog = require("../models/blog");
+var express = require("express"),
+    router = express.Router(),
+    middleware = require("../middleware"),
+    Blog = require("../models/blog");
+
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+        next();
+    } else {
+        res.redirect("/login");
+    }
+}
 
 // INDEX
-router.get("/blogs", (req, res) => {
-    Blog.find({}, (err, allBlogs) => {
+router.get("/blogs", function(req, res){
+    Blog.find({}, function(err, allBlogs){
         if(err){
             console.log(err)
         } else {
@@ -15,14 +23,14 @@ router.get("/blogs", (req, res) => {
 });
 
 // NEW
-router.get("/blogs/new", middleware.isLoggedIn, (req, res) => {
+router.get("/blogs/new", middleware.isLoggedIn, function(req, res){
     res.render("blogs/new");
 })
 
 // CREATE
-router.post("/blogs", middleware.isLoggedIn, (req, res) => {
+router.post("/blogs", middleware.isLoggedIn, function(req, res){
     req.body.blog.body = req.sanitize(req.body.blog.body);
-    Blog.create(req.body.blog, (err, createdBlog) => {
+    Blog.create(req.body.blog, function(err, createdBlog){
         if(err){
             req.flash("error", "<div class='header'>Blog not created</div><p>Please try again</p>");
             res.redirect("error");
@@ -37,8 +45,8 @@ router.post("/blogs", middleware.isLoggedIn, (req, res) => {
 });
 
 // SHOW
-router.get("/blogs/:id", (req, res) => {
-    Blog.findById(req.params.id, (err, foundBlog) => {
+router.get("/blogs/:id", function(req, res){
+    Blog.findById(req.params.id, function(err, foundBlog){
         if(err){
             req.flash("error", "<div class='header'>Blog not found</div><p>Please use a blog with a valid ID</p>");
             res.redirect("error");
@@ -49,8 +57,8 @@ router.get("/blogs/:id", (req, res) => {
 })
 
 // EDIT
-router.get("/blogs/:id/edit", middleware.checkBlogOwnership, (req, res) => {
-    Blog.findById(req.params.id, (err, foundBlog) => {
+router.get("/blogs/:id/edit", middleware.checkBlogOwnership, function(req, res){
+    Blog.findById(req.params.id, function(err, foundBlog){
         if(err){
             req.flash("error", "<div class='header'>Blog not found</div><p>Please use a blog with a valid ID</p>");
             res.redirect("error");
@@ -61,9 +69,9 @@ router.get("/blogs/:id/edit", middleware.checkBlogOwnership, (req, res) => {
 });
 
 // UPDATE
-router.put("/blogs/:id", middleware.checkBlogOwnership, (req, res) => {
+router.put("/blogs/:id", middleware.checkBlogOwnership, function(req, res){
     req.body.blog.body = req.sanitize(req.body.blog.body);
-    Blog.findByIdAndUpdate(req.params.id, req.body.blog, (err, updatedBlog) => {
+    Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, updatedBlog){
         if(err){
             req.flash("error", "<div class='header'>Blog not found</div><p>Please use a blog with a valid ID</p>");
             res.redirect("error");
@@ -75,8 +83,8 @@ router.put("/blogs/:id", middleware.checkBlogOwnership, (req, res) => {
 });
 
 // DELETE
-router.delete("/blogs/:id", middleware.checkBlogOwnership, (req, res) => {
-    Blog.findByIdAndDelete(req.params.id, (err, deletedBlog) => {
+router.delete("/blogs/:id", middleware.checkBlogOwnership, function(req, res){
+    Blog.findByIdAndDelete(req.params.id, function(err, deletedBlog){
         if(err){
             req.flash("error", "<div class='header'>Blog not delete</div><p>Please try again</p>");
             res.redirect("error");
