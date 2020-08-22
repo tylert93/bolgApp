@@ -1,10 +1,11 @@
-const express = require("express"),
-      router = express.Router(),
-      middleware = require("../middleware"),
-      Blog = require("../models/blog");
+import express from 'express';
+import {isLoggedIn, checkBlogOwnership} from '../middleware/index';
+import {Blog} from '../models/blog';
+
+const blogRoutes = express.Router();      
 
 // INDEX
-router.get("/blogs", (req, res) => {
+blogRoutes.get("/blogs", (req, res) => {
     Blog.find({}, (err, allBlogs) => {
         if(err){
             console.log(err)
@@ -15,12 +16,12 @@ router.get("/blogs", (req, res) => {
 });
 
 // NEW
-router.get("/blogs/new", middleware.isLoggedIn, (req, res) => {
+blogRoutes.get("/blogs/new", isLoggedIn, (req, res) => {
     res.render("blogs/new");
 })
 
 // CREATE
-router.post("/blogs", middleware.isLoggedIn, (req, res) => {
+blogRoutes.post("/blogs", isLoggedIn, (req, res) => {
     req.body.blog.body = req.sanitize(req.body.blog.body);
     Blog.create(req.body.blog, (err, createdBlog) => {
         if(err){
@@ -37,7 +38,7 @@ router.post("/blogs", middleware.isLoggedIn, (req, res) => {
 });
 
 // SHOW
-router.get("/blogs/:id", (req, res) => {
+blogRoutes.get("/blogs/:id", (req, res) => {
     Blog.findById(req.params.id, (err, foundBlog) => {
         if(err){
             req.flash("error", "<div class='header'>Blog not found</div><p>Please use a blog with a valid ID</p>");
@@ -49,7 +50,7 @@ router.get("/blogs/:id", (req, res) => {
 })
 
 // EDIT
-router.get("/blogs/:id/edit", middleware.checkBlogOwnership, (req, res) => {
+blogRoutes.get("/blogs/:id/edit", checkBlogOwnership, (req, res) => {
     Blog.findById(req.params.id, (err, foundBlog) => {
         if(err){
             req.flash("error", "<div class='header'>Blog not found</div><p>Please use a blog with a valid ID</p>");
@@ -61,7 +62,7 @@ router.get("/blogs/:id/edit", middleware.checkBlogOwnership, (req, res) => {
 });
 
 // UPDATE
-router.put("/blogs/:id", middleware.checkBlogOwnership, (req, res) => {
+blogRoutes.put("/blogs/:id", checkBlogOwnership, (req, res) => {
     req.body.blog.body = req.sanitize(req.body.blog.body);
     Blog.findByIdAndUpdate(req.params.id, req.body.blog, (err, updatedBlog) => {
         if(err){
@@ -75,7 +76,7 @@ router.put("/blogs/:id", middleware.checkBlogOwnership, (req, res) => {
 });
 
 // DELETE
-router.delete("/blogs/:id", middleware.checkBlogOwnership, (req, res) => {
+blogRoutes.delete("/blogs/:id", checkBlogOwnership, (req, res) => {
     Blog.findByIdAndDelete(req.params.id, (err, deletedBlog) => {
         if(err){
             req.flash("error", "<div class='header'>Blog not delete</div><p>Please try again</p>");
@@ -87,4 +88,4 @@ router.delete("/blogs/:id", middleware.checkBlogOwnership, (req, res) => {
     });
 });
 
-module.exports = router;
+export default blogRoutes;

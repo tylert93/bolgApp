@@ -1,18 +1,19 @@
-const express = require("express"),
-      app = express(),
-      mongoose = require("mongoose"),
-      bodyParser = require("body-parser"),
-      methodOverride = require("method-override"),
-      expressSanitizer = require("express-sanitizer"),
-      passport = require("passport"),
-      localStrategy = require("passport-local"),
-      expressSession = require("express-session"),
-      dotenv = require('dotenv'),
-      flash = require("connect-flash"),
-      blogsRoutes = require("./routes/blogs"),
-      indexRoutes = require("./routes/index"),
-      Blog = require("./models/blog"),
-      User = require("./models/user");
+import express from 'express';
+import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
+import methodOverride from 'method-override';
+import expressSanitizer from 'express-sanitizer';
+import passport from 'passport';
+import localStrategy from 'passport-local';
+import expressSession from 'express-session';
+import dotenv from 'dotenv';
+import flash from 'connect-flash';
+import blogsRoutes from './routes/blogs';
+import indexRoutes from './routes/index';
+import {Blog} from './models/blog';
+import {User} from './models/user';
+
+const app = express();
 
 dotenv.config();      
 app.set("view engine", "ejs");

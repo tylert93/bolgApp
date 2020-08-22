@@ -1,7 +1,6 @@
-let middlewareObj = {};
-const Blog = require("../models/blog");
+import {Blog} from '../models/blog';
 
-middlewareObj.isLoggedIn = (req, res, next) => {
+export const isLoggedIn = (req, res, next) => {
     if(req.isAuthenticated()){
         next();
     } else {
@@ -10,7 +9,7 @@ middlewareObj.isLoggedIn = (req, res, next) => {
     }
 }
 
-middlewareObj.checkBlogOwnership = (req, res, next) => {
+export const checkBlogOwnership = (req, res, next) => {
     if(req.isAuthenticated()){
         Blog.findById(req.params.id, (err, foundBlog) => {
             if(err || !foundBlog){
@@ -30,5 +29,3 @@ middlewareObj.checkBlogOwnership = (req, res, next) => {
         res.redirect("/login");
     }  
 }
-
-module.exports = middlewareObj;
